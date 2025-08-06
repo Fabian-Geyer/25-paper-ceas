@@ -1,0 +1,681 @@
+%Version 3.1 December 2024
+% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%=========================================================================================%%
+%% the documentclass is set to pdflatex as default. You can delete it if not appropriate.  %%
+%%=========================================================================================%%
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove Numbered in the optional parenthesis. 
+%%The option is available for: sn-basic.bst, sn-chicago.bst%  
+ 
+%%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+%%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
+%%\documentclass[pdflatex,sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+%%\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Vancouver Numbered Reference Style
+%%\documentclass[pdflatex,sn-vancouver-ay]{sn-jnl}% Vancouver Author Year Reference Style
+%%\documentclass[pdflatex,sn-apa]{sn-jnl}% APA Reference Style
+%%\documentclass[pdflatex,sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+
+% original template
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+
+% my packages
+% plotting with pgfplots and tikz
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage{cleveref}
+\Crefname{equation}{Eq.}{Eqs.}
+\Crefname{figure}{Fig.}{Figs.}
+\Crefname{tabular}{Tab.}{Tabs.}
+\Crefname{table}{Tab.}{Tabs.}
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}% 
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
+\begin{document}
+
+\title[Aerodynamic Attitude Control of Very Low Earth Orbit Satellites: Simulative Analysis and Insights into Nonlinear System Properties]{Aerodynamic Attitude Control of Very Low Earth Orbit Satellites: Simulative Analysis and Insights into Nonlinear System Properties}
+
+%%=============================================================%%
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% \author*[1,2]{\fnm{Joergen W.} \spfx{van der} \sur{Ploeg} 
+%%  \sfx{IV}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+% Authors and affiliations
+\author[1]{\fnm{Fabian} \sur{Geyer}}\email{fabian.geyer@ifr.uni-stuttgart.de}
+\author[1]{\fnm{Friedrich} \sur{Tuttas}}
+\author[1]{\fnm{Paul J.} \sur{Haufe}}
+\author[1]{\fnm{Nils} \sur{Maier}}
+\author[1]{\fnm{Torbjørn} \sur{Cunis}}
+\author[1]{\fnm{Walter} \sur{Fichter}}
+
+\affil*[1]{\orgdiv{Institute of Flight Mechanics and Controls}, \orgname{University of Stuttgart}, \orgaddress{\street{Pfaffenwaldring 27}, \city{Stuttgart}, \postcode{70569}, \state{Baden-W\"urttemberg}, \country{Germany}}}
+
+%%==================================%%
+%% Sample for unstructured abstract %%
+%%==================================%%
+
+
+\abstract{
+    Satellites operating in the Very Low Earth Orbit regime, that is, at altitudes between 250 and 450 km, encounter significant aerodynamic forces which are traditionally considered disturbances in spacecraft attitude control design.
+    Instead, active control methods seek to harness these forces using the torques generated by adjustable aerodynamic surfaces as an additional means of external actuation.
+    In this publication, we examine the nonlinear structure of the control problem for a satellite featuring a reference geometry in a feathered configuration with four rotatable surfaces. 
+    We argue that challenges for the control design include uncertainty in aerodynamic and atmospheric models as well as time-varying parameters such as density and thermospheric temperature. Furthermore, our work emphasizes that low lift-to-drag ratios not only negatively impact control authority around the roll axis but also significantly restrict the region of validity of the linearized system, complicating allocation procedures.
+    To highlight the effects on control performance, we introduce a custom simulation tool designed for testing rotatable panel geometries under VLEO conditions and present a case study that illustrates the limitations of linear control design methods. 
+    Finally, we discuss potential nonlinear control strategies and the need for stability guarantees to further advance the field of aerodynamic attitude control in VLEO.
+}
+
+\keywords{VLEO, Aerodynamic Attitude Control, Simulation, Nonlinear Dynamics, ATLAS}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
+
+    Research regarding operation of satellites in Very Low Earth Orbit (VLEO), that is, at altitudes below 450 km is gaining increasing attention due to several benefits including improved optical imaging, reduced data transfer latency and minimizing debris collision risks \cite{crispBenefitsVeryLow2020}. However, satellites in VLEO encounter significant aerodynamic drag due to the residual atmosphere at altitudes below 500 km. While this generally leads to a reduction in orbital lifetime and therefore increased operational costs, research into improved materials \cite{crispMethodExperimentalCharacterisation2022} and air breathing propulsion systems \cite{andreussiReviewAirbreathingElectric2022,schonherrAnalysisAtmosphereBreathingElectric2015} could potentially enable reasonable operational lifetimes. In addition to drag, the aerodynamic environment in VLEO has a significant influence on satellite attitude. Satellites such as GOCE \cite{drinkwaterGOCEESAsFirst2003} and SOAR \cite{crispSOARSatelliteOrbital} are typically designed to maintain a stable nominal attitude by leveraging aerodynamic forces (aerostability). If, however, mission scenarios such as relative formation maneuvers \cite{sabatiniAerodynamicCoordinatedControl2024} or orbit control using aerodynamic forces \cite{llopDescendingSunSynchronousOrbits2014} are considered, pointing and stabilization for various attitudes become necessary. In these cases, satellites experience constant or time-varying  disturbance torques posing challenges for control design such as reaction wheel saturation. Instead, active aerodynamic attitude control methods hold the potential to counteract and even use these disturbances for control purposes using adjustable aerodynamic surfaces as actuators. 
+	
+	In recent publications, the control problem is mostly approached by applying proven quaternion Proportional Integral Derivative (PID) control methods based on work by Wie \cite{wieQuaternionFeedbackRegulator1989} to obtain desired control torques. Finding control surface configurations, that generate these desired torques can then be interpreted as a nonlinear allocation problem when modelling aerodynamic forces with the commonly used gas surface interaction model derived by Sentman \cite{sentman_free_1961}.
+
+	Under the assumption, that a linear approximation for aerodynamic torques around a desired equilibrium is sufficient, authors in \cite{chenAerodynamicAttitudeControl2023} and \cite{canasAttitudeControlSatellites2020}  implement this PID control law for stabilization and pointing tasks.
+	In \cite{livadiottiUncertaintiesDesignActive2022} and \cite{changAerodynamicSatelliteAttitude}, an on-line grid search to obtain panel angles that minimize the difference between desired and aerodynamic torques is performed. An alternative approach is to interpret the nonlinear allocation problem as a dynamical system while using an inner loop controller to stabilize the torque error \cite{gargaszOptimalSpacecraftAttitude, sabatiniAerodynamicCoordinatedControl2024}. 
+	While the previously mentioned control strategies already provide a solid foundation for aerodynamic attitude control, the investigation of novel (potentially nonlinear) algorithms holds the potential of increasing the validity of these control approaches, especially since the field is still in its infancy.
+	Given that reliable satellite operation under VLEO conditions is essential for future missions, the additional need for verification of said algorithms is evident. 
+	While in theory, Lyapunov stability can be proven for the outer loop of the PID control structure applied by the previously mentioned authors, to our knowledge no stability guarantees have been provided for the complete closed loop dynamics including aerodynamics.
+	So far, Mostaza \cite{mostazaMethodologyAnalyzeAttitude2016} provides a first framework for passive aerodynamic stability analysis without rotating control surfaces. Similarly, the authors in \cite{miyamotoAttitudeDynamicsSatellites2023} analyze a local stability metric for variable shape satellites using Lyapunov's indirect method. Still, further advancements for verification of active control methods using Lyapunov-like methods are necessary, which require a deeper understanding of the control problem at hand.
+	Additionally, uncertainty in aerodynamic models and thermospheric conditions are to be expected in the VLEO regime. Here, extensive Monte Carlo simulations offer the potential to verify control robustness under varying conditions, as shown in \cite{livadiottiUncertaintiesDesignActive2022}. 
+	Therefore, developing high-fidelity simulation tools for aerodynamics in free molecular flow is crucial for extensive testing. These tools must be capable of calculating aerodynamic coefficients for satellites with rotatable geometries, especially in the context of active aerodynamic control.
+
+	To address these challenges, we present our initial results on aerodynamic attitude control methods within the Collaborative Research Centre \textit{Advancing Technologies of Very Low Altitude Satellites (ATLAS)}. In \cref{sec:control_problem}, we introduce a reference geometry, derive the spacecraft control problem using the Sentman model for aerodynamics, and quantify uncertainty in the atmosphere's total mass density. After introducing an aerodynamic simulation tool for satellites with rotatable geometries in \cref{sec:sim_tool} (\url{https://github.com/ifrunistuttgart/vleo-aerodynamics-tool}.), we use a basic control design (\cref{sec:control_design}) to assess the limitations of linear allocation laws with the newly developed tools (\cref{sec:case_study}). Finally, we discuss the results in \cref{sec:discussion} and suggest potential control and verification strategies to further advance the field of active aerodynamic attitude control for VLEO satellites.
+
+
+    \section{Control Problem Formulation}
+	\label{sec:control_problem}
+		\subsection{Satellite Model}
+		In our analysis, we define a reference model inspired by the feather design utilized in the \textit{Satellite for Orbital Aerodynamics Research (SOAR)} project \cite{crispSOARSatelliteOrbital}. The geometry comprises a 3U-cubesat body with four rotatable control fins, as illustrated in \Cref{fig:satellite}.
+
+    % satellite figure
+    \begin{figure}[h]
+			\centering
+			\includegraphics[scale=1]{Figures/fig1.eps}
+			\caption{SOAR satellite geometry with body coordinate frame and control fin definitions.}
+			\label{fig:satellite}
+	\end{figure}
+
+    Key model parameters are summarized in \Cref{tab:soar_parameters}. 
+		% small table:
+		\begin{table}[ht]
+			%\centering
+			\caption{Reference satellite model parameters (taken from \cite{livadiottiApplicationOrbitalAerodynamics2021}).}	
+			\footnotesize{
+			\begin{tabular}{lll}
+				\hline
+				\textbf{Parameter}      & \textbf{Value} & \textbf{Unit} \\
+				\hline
+				mass $m$              			& 2.877 & kg \\
+				Body length $l_x$     			& 0.340 & m\\
+				Panel length $l_{\text{p}}$     		& 0.570 & m\\
+				Panel area (one side) $A_{\text{p}}$   & 0.0342 & m$^2$\\
+				Inertia Matrix $J$  & $\text{diag} \left(
+				\begin{bmatrix}0.0288 \\ 0.0392 \\ 0.0392
+				\end{bmatrix}\right)$ & $\text{kg m}^2$\\
+				distance CoM to rear& 0.161 & m\\
+				\hline& 
+			\end{tabular}
+			\label{tab:soar_parameters}
+			}
+		\end{table}
+		The commanded control fin angles are denoted with $\eta_1$ to $\eta_4$ and are equal to zero in the minimum-drag configuration.
+
+    \subsection{Coordinate Frames}
+		\begin{figure}[h]
+            \centering
+			\includegraphics[scale=1]{Figures/fig2.eps}
+			\caption{Tangential and ECI coordinate frame definitions.} %Fix explainer text here. Potentially add ECI frame in figure
+			\label{fig:tangential_coordinate_frame}
+		\end{figure}
+		
+		The coordinate frames are listed in \Cref{tab:frames}.
+		To simplify aerodynamic calculations, we use the tangential frame $\text{T}$ as its axis $x_{\text{T}}$ points in the direction of the satellite's velocity as shown in \Cref{fig:tangential_coordinate_frame}.
+		Furthermore, $y_{\text{T}}$ is aligned parallel to the negative orbital angular momentum and $z_{\text{T}}$ completes the right hand system.
+		For a circular orbit, $z_{\text{T}}$ is aligned with the negative radial direction and the tangential frame is equal to local-vertical local-horizontal frame (LVLH).
+		The corresponding unit vectors in the body frame are denoted by $x^{\text{B}}_{\text{T}}, y^{\text{B}}_{\text{T}}$ and $z^{\text{B}}_{\text{T}}$ respectively.
+
+		\begin{table}[h]
+			\renewcommand{\arraystretch}{1.1}
+			\begin{tabular}{c p{6cm}} % Two columns: Symbol and Description
+				\hline
+				\textbf{Frame} & \textbf{Description} \\ \hline
+				$\text{I}$     & Earth-centered inertial (ECI) frame: fixed relative to distant stars. \\
+				$\text{B}$     & Body frame: aligned with the satellite's principal axes. \\
+				$\text{T}$     & Tangential frame: aligned with the satellite's velocity direction. \\ \hline
+			\end{tabular}
+			\caption{Relevant coordinate frames.}
+			\label{tab:frames}
+		\end{table}
+
+        \subsection{Kinematics}
+		We define the quaternion
+		\begin{equation}
+			q = \begin{bmatrix}
+				q_1 \\ q_2 \\q_3 \\ q_4
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				q_\text{v} \\ q_4
+			\end{bmatrix}
+		\end{equation}
+		with the scalar part $q_4$ and the vector part $q_\text{v}$. 
+		Using this parametrization, the kinematic relationship between the angular velocity of the satellite and the time derivative of the quaternion describing the attitude of the satellite with respect to the tangential frame according to \cite{fichterPrinciplesSpacecraftControl2023} is given by
+		% Quaternion kinematics
+			\begin{equation}
+				\label{eq:quaternion_kinematics}
+				\dot{q}_{\text{BT}} = \frac{1}{2}\begin{bmatrix}
+					-[\omega^{\text{B}}_{\text{BT}} \times] & \omega^{\text{B}}_{\text{BT}} \\
+					-(\omega_{\text{BT}}^{\text{B}})^{\top} & 0
+				\end{bmatrix}q_{\text{BT}}
+			\end{equation}
+		where $\omega_{\text{BT}}^{\text{B}}$ denotes the angular velocity of the satellite with respect to the tangential frame in body-fixed coordinates.
+
+		The satellite's angular velocity with respect to the inertial frame expressed in the body frame is given by
+		\begin{equation}
+			\omega_{\text{BI}}^{\text{B}} = \omega_{\text{BT}}^{\text{B}} + \omega_{\text{TI}}^{\text{B}} 
+			= \omega_{\text{BT}}^{\text{B}} + T_{\text{BT}}\omega_{\text{TI}}^{\text{T}}.
+		\end{equation}
+		where for a circular orbit, the angular velocity of the tangential frame relative to the inertial frame is given by $\omega_{\text{TI}}^{\text{T}} = \begin{bmatrix}
+			0 & -\omega_0 & 0
+		\end{bmatrix}^{\top}$ with the constant orbit rate $\omega_0$. Furthermore, using the Direction Cosine Matrix (DCM) 
+		\begin{equation}
+			T_{\text{BT}} = \begin{bmatrix}
+				x^{\text{B}}_{\text{T}} & y^{\text{B}}_{\text{T}} & z^{\text{B}}_{\text{T}},
+			\end{bmatrix}
+		\end{equation}
+		we obtain the simplified expression
+		\begin{equation}
+			\label{eq:inertial_rate_circular_orbit}
+			\omega_{\text{BI}}^{\text{B}} = \omega_{\text{BT}}^{\text{B}} - \omega_0 y^{\text{B}}_{\text{T}}.
+		\end{equation}
+
+
+    \subsection{Dynamics}
+		Using Euler's equation, we express the dynamics of the rigid body satellite with
+		\begin{equation}
+			\label{eq:dynamics}
+			J \dot{\omega}_{\text{BI}}^{\text{B}} = -[\omega_{\text{BI}}^{\text{B}}\times] J \omega_{\text{BI}}^{\text{B}} + \tau_{\text{aero}}.
+		\end{equation}
+
+		Here, the aerodynamic torque $\tau_{\text{aero}}$ is assumed to be the only external torque acting on the satellite.
+		By inserting \cref{eq:inertial_rate_circular_orbit} into \cref{eq:dynamics}, we obtain
+
+		\begin{equation}
+			J \left( \dot{\omega}_{\text{BT}}^{\text{B}}  - \omega_0 \dot{y}^{\text{B}}_{\text{T}} \right)
+			= -\left(\omega_{\text{BT}}^{\text{B}} - \omega_0 y^{\text{B}}_{\text{T}}\right)
+			\quad \times J \left(\omega_{\text{BT}}^{\text{B}} - \omega_0 y^{\text{B}}_{\text{T}}\right) + \tau_{\text{aero}}
+			\label{eq:dynamics_inserted}
+		\end{equation}
+
+		which we simplify to obtain the final dynamics expressed in the body frame with
+
+		\begin{equation}
+			\begin{split}
+			J \dot{\omega}_{\text{BT}}^{\text{B}} 
+			= \left(J\omega_{\text{BT}}^{\text{B}} \right) \times \omega_{\text{BT}}^{\text{B}} 
+			+ \omega_0 \omega_{\text{BT}}^{\text{B}} \times \left( J y^{\text{B}}_{\text{T}} \right)
+			+ \omega_0 y^{\text{B}}_{\text{T}} \times \left( J \omega_{\text{BT}}^{\text{B}}\right) \\
+			- \omega_0^2 \left(  y^{\text{B}}_{\text{T}}  
+				\times 
+				\left( J \omega_{\text{BT}}^{\text{B}} \right)  \right)
+			- \omega_0 J \left(  \omega_{\text{BT}}^{\text{B}} \times y^{\text{B}}_{\text{T}} \right) 
+			+ \tau_{\text{aero}}.
+			\end{split}
+			\label{eq:dynamics_orbit_frame}
+		\end{equation}
+
+		Introducing the state vector $x = \begin{bmatrix}
+			q_{\text{BT}} & \omega_{\text{BT}}^{\text{B}}\end{bmatrix}^{\top}$ and the input vector $u = \tau_{\text{aero}}$, the system dynamics and kinematics can be expressed in the form of an input affine nonlinear state space representation as
+
+		\begin{equation}
+			\begin{aligned}
+				\dot{x} &= f(x) + g(x)u, \\
+			\end{aligned}
+		\end{equation}
+ 
+		where the vector fields $f$ and $g$ are defined by \cref{eq:quaternion_kinematics} and \cref{eq:dynamics_orbit_frame}. In this representation it is assumed that the aerodynamic torque $\tau_{\text{aero}}$ can be arbitrarily realized using rotating fins. While this assumption can be used to design the outer loop control law, significant limitations and nonlinear behaviour are introduced to the system when modelling the aerodynamics, which we aim to address in the following sections.
+
+
+
+        \subsection{Aerodynamics}
+		\label{sec:aerodynamics}
+		To model the diffuse re-emission of particles from the satellite's surface, we employ the gas surface interaction model derived by Sentman \cite{sentman_free_1961}. The force exerted onto a single sided flat plate is given by
+		\newcommand{\ii}{\text{i}}
+		\newcommand{\pp}{\text{p}}
+		\newcommand{\cosd}{\cos \delta}
+		\begin{alignat}{2}
+            \label{eq:plate_force_sentman}
+			f_\text{p} 
+			&= \frac{\rho}{2} A_\pp V_\ii^2 C &&\nonumber\\
+			&= \frac{\rho}{2} A_\pp V_\ii^2\frac{1}{s_\ii^2}
+			&&\Bigg[
+				- \Gamma_1(s_\ii \cosd) \hat{n}_\pp \Bigg.
+				- \frac{\sqrt{\pi}}{2} \sqrt{\frac{T_\text{r}}{T_\ii}} \Gamma_2(s_\ii \cosd) \hat{n}_\pp
+				\Bigg.\\ \nonumber
+                &&& + s_\ii \Gamma_2(s_\ii \cosd) \left(\hat{v}_\ii + \cosd ~\hat{n}_\pp\right)
+			\Bigg]
+		\end{alignat}
+
+		where
+		\begin{align*}
+			\Gamma_1(\xi) &= \frac{\xi}{\sqrt{\pi}} \exp (-\xi^2) + \left(\frac{1}{2} + \xi^2 \right) \text{erfc} (-\xi) \\
+			\Gamma_2(\xi) &= \frac{1}{\sqrt{\pi}} \exp (-\xi^2) + \xi \text{ erfc}(-\xi) \\
+			\text{erfc}(z) &= \frac{2}{\sqrt{\pi}} \int_{z}^{\infty}e^{-\mu^2} \mathrm{d}\mu
+		\end{align*}
+		with the incoming particle velocity magnitude $V_\ii = \frac{v_\ii}{\hat{v}_\ii}$, the outward facing panel normal vector $\hat{n}_\pp$, the panel area $A_\pp$, the total mass density $\rho$, the molecular speed ratio $s_\ii$ and the angle between the normal vector and the incoming velocity direction $\delta$ for which the following holds:
+		\begin{equation}
+			\cosd = - \langle \hat{n}_\pp \; , \; \hat{v}_\ii \rangle.
+		\end{equation}
+
+		As shown in \cite{tuttasGeneralizedTreatmentEnergy2024}, the temperature ratio can then be obtained for the general case with
+
+		\begin{align}
+			\begin{split}
+				\frac{T_\mathrm{r}}{T_\mathrm{i}} &= \alpha_\mathrm{E} \frac{2 k T_\mathrm{w}}{m V_\mathrm{i}^2} s_{\text{i}}^2
+                + \left( 1 - \alpha_\mathrm{E} \right) 
+                \bigg(
+					1 + \frac{s^2}{2} \\ & 
+                    + \frac{1}{4} \frac{ s_{\text{i}} \cos\delta \text{ erfc}\left( - s_{\text{i}} \cos\delta \right) }{\frac{1}{\sqrt{\pi}} \exp \left( - s_{\text{i}}^2 \cos^2\delta \right) + s_{\text{i}} \cos\delta \text{ erfc}\left( - s_{\text{i}} \cos\delta \right)}
+				\bigg)
+			\end{split}
+		\end{align}
+		where $\alpha_E$ denotes the energy accommodation coefficient. Generally, it is assumed to be within the range of $0.9$ to $1$ for VLEO applications \cite{moe_gassurface_2005}.
+
+		Applying \cref{eq:plate_force_sentman} to a two-sided control fin of the reference satellite results in the drag ($f_x$) and lift ($f_z$) forces shown in \Cref{fig:linearization}. The Taylor approximations of these forces around $\delta = 0$, corresponding to the satellite's nominal low-drag configuration, are represented by the dotted lines.
+		While the linearization of the lift force (blue) remains accurate for angles up to approximately $15^\circ$, the constant approximation of the symmetric drag force (red) is valid over a significantly smaller range. Given the substantially higher magnitude of the drag force compared to the lift force, this indicates that the regions of validity for linearized aerodynamic models around the nominal configuration are severely limited in feather design configurations.
+
+
+		% figure for linearization
+		\begin{figure}[t]
+			\centering
+			\include{Figures/fig3}
+			\caption{Lift and drag over $\delta$ of a two-sided steering fin of the SOAR geometry for $\alpha_E=0.95$ at $300\,\text{km}$ altitude. Dotted lines indicate the linearization around $\delta=0$.}
+			\label{fig:linearization}
+		\end{figure}
+		
+
+		\subsubsection{Control Authority}
+		Due to the short time horizons of attitude control compared to orbit control, the incident flow velocity \(V_\text{i}\), energy accommodation coefficient \(\alpha_E\), and molecular speed ratio \(s\) are assumed constant for the analysis in this section. Under this assumption, the aerodynamic torque in the body frame is expressed as a function of the incoming particle velocity direction and the panel normals:
+		\begin{equation}
+		\begin{aligned}
+			\tau_{\text{aero}}(\hat{n}_i, \hat{v}_\text{i}) &= \sum_{i=1}^{4} r_{\text{p},i}\times f_i(\hat{n}_{\text{p},i},\hat{v}_\ii) \\  
+			&= A_{\text{p}}\frac{\rho}{2} V_\ii^2 \sum_{i=1}^{4} r_{\text{p},i}\times C_i(\hat{n}_{\text{p},i},\hat{v}_\ii)
+		\end{aligned}
+		\label{eq:torque_simplified}
+		\end{equation}
+		where $f_i$ denotes the force generated by the $i$-th two-sided control fin in body coordinates and $r_{\text{p},i}$ is the distance vector from the center of mass to the center of pressure of the $i$-th control fin.
+		Under the assumption that the relative velocity of the incoming particles predominantly stems from the satellite's own velocity, its direction is parallel to the negative x-axis of the tangential frame.
+		It can therefore be parametrized using attitude quaternions with
+
+		\begin{equation}
+			\hat{v}_\ii = -\begin{bmatrix}
+				2(q_4^2+q_1^2)-1 \\ 2(q_1q_2 -q_4q_3) \\ 2(q_1q_3 + q_4q_2)
+			\end{bmatrix}
+			\label{eq:quat_to_flow}
+		\end{equation}
+
+		where $q=q_{\text{BT}}$.
+		In \Cref{fig:torque_envelope}, the achievable torque envelope for varying control fin angles is shown for a satellite facing the incoming flow directly.
+		%In nominal flow configuration with $v_\ii$ aligning with the negative $x_B$ axis, the achievable torque envelope for varying control fin angles is shown in \Cref{fig:torque_envelope}.
+		It can be seen that torque magnitudes in pitch ($\tau_y$) and yaw ($\tau_z$) clearly dominate roll ($\tau_x$) due to the low lift-to-drag ratio. 
+		For complete panel rotations ($-90^{\circ} \leq \eta \leq 90^{\circ}$), the achievable torque spans a potentially convex volume.
+		Since low drag magnitudes are desirable, control fin angles can be limited.
+		As shown in \Cref{fig:torque_envelope} (right), this results in a nonconvex and highly complex torque envelope. Furthermore, these envelopes vary with  the satellite attitude, resulting in a challenging nonlinear allocation problem.
+
+		\begin{figure*}[htbp]
+			\centering
+			\begin{minipage}{0.48\textwidth}
+				\centering
+				\includegraphics[width=\linewidth]{Figures/fig4.eps}
+			\end{minipage}%
+			\hfill
+			\begin{minipage}{0.48\textwidth}
+				\centering
+				\includegraphics[width=\linewidth]{Figures/fig5.eps}
+			\end{minipage}
+			\caption{Point cloud plot approximation of active aerodynamic torque envelope. Each point represents a torque resulting from a variation of all four panel angles $\eta$. The color grading represents the rotation angle of one active control fin. Left: Control fin rotations up to $\pm 90^{\circ}$, Right: Control fin rotations limited to $\pm 35^{\circ}$.}
+			\label{fig:torque_envelope}
+		\end{figure*}
+
+
+        \subsection{Time Variation and Uncertainty}
+		\label{sec:uncertainty}
+		The nonlinearities introduced by Sentman’s model are further compounded by the difficulty in validating its assumptions, as key parameters like the accommodation coefficient are derived from imperfect orbit data \cite{moeImprovedSatelliteDrag1998}. 
+		Additionally, parameters such as the total mass density not only vary over time throughout orbits but also exhibit significant uncertainty. This is illustrated in \Cref{fig:density_uncertainty_over_orbit}, where the density values over an equatorial orbit are plotted with 1-$\sigma$ uncertainty based on the model developed by Boniface \cite{bonifaceUncertaintyQuantificationDTM20202021}.
+		\begin{figure}[ht]
+			\centering
+			\input{Figures/fig6}
+			\caption{Total mass density as a function of longitude for equatorial orbits at varying altitudes, based on the DTM2020 model. The plot includes 1-$\sigma$ uncertainty bounds as derived by Boniface \cite{bonifaceUncertaintyQuantificationDTM20202021}.}
+			\label{fig:density_uncertainty_over_orbit}
+		\end{figure}
+		While altitude has the largest effect on density, changes over one orbit are in the range of $\pm 25 \%$ at $300\,\text{km}$ altitude with additional 1-$\sigma$ uncertainty bounds exceeding $\pm 15\%$.
+		Given that aerodynamic forces and therefore torques are directly proportional to the total mass density, robustness in control allocation for aerodynamic surfaces poses a significant challenge.
+
+        \section{Calculation of Aerodynamic Coefficients}
+	\label{sec:sim_tool}
+	The development and verification of active aerodynamic control algorithms require extensive simulation. To calculate aerodynamic coefficients, and consequently forces and torques, panel methods provide a practical balance between computational efficiency and accuracy. 
+
+	For geometrically simple models, the satellite can be straightforwardly subdivided into panels, and Sentman's method can be applied to derive forces and torques. For more complex geometries, advanced tools such as \textit{ADBSat} \cite{sinpetruADBSatMethodologyNovel2022} enable higher-fidelity calculations.
+	 
+	Here, the satellite geometry is designed using CAD software and exported as an object file represented as a triangle mesh, facilitating the application of panel methods to individual triangles.
+
+	Additionally, the tool incorporates panel shadowing, which excludes the contributions of downstream triangles obstructed by upstream geometry, adhering to the behavior of free molecular flow.
+
+	\subsection{Limitations}
+	The existing tool \textit{ADBSat} is able to calculate aerodynamic coefficients of a constant geometry for arbitrary incident particle directions.
+	It does not offer a functionality to easily rotate certain parts of the geometry.
+	Instead, the user would have to create a new set of object files for each configuration before feeding it into the tool which limits its flexibility.
+	Furthermore, \textit{ADBSat} is designed to precompute databases of coefficients for a range of different incident particle directions.
+	If, however, rotating appendages like aerodynamic control surfaces are considered, precomputing databases becomes infeasible due to the vast number of possible configurations.
+	
+	\subsection{VLEO Aerodynamics Tool}
+	To overcome these challenges, a tool is needed that can handle both rotatable geometries and complex shapes, while incorporating panel shadowing. 
+	To address this, we have developed the \textit{VLEO Aerodynamics Tool}. 
+	Our approach enables dynamic computation of aerodynamic forces based on the satellite's current geometry and wind orientation, ensuring greater flexibility and precision in real-time simulations. This enables the analysis of complex scenarios without the limitations of traditional methods, offering a more robust solution for aerodynamic control simulations in VLEO environments.
+
+	This is achieved through the following workflow (see \Cref{fig:aerodynamics_tool_workflow}):
+	\begin{enumerate}
+		\item The satellite is subdivided into several bodies in the CAD design process.
+		\item The individual object files are imported once. Each body is assigned a hinge point and rotation direction, along with user-defined parameters (see \Cref{tab:parameters_vleo_aerodynamics_tool}).
+		\item In each calculation step, environment and satellite states (see \Cref{tab:aerodynamics_tool_calc_input}) are provided alongside rotation angles. After rotating the corresponding triangle mesh, body forces and torques are calculated on-line for each triangle using the aerodynamic model introduced in \cref{sec:aerodynamics}.
+	\end{enumerate}
+
+	To ensure correct configuration, the \texttt{show\_bodies} function can be used to visualize the rotated geometry as shown in \Cref{fig:aerodynamics_tool_show_bodies}.
+    \begin{figure}[h]
+		\centering
+		\includegraphics[width=.6\textwidth]{Figures/fig7.png}
+		\caption{Example of a geometry with rotated bodies using the \texttt{show\_bodies} function.}
+			\label{fig:aerodynamics_tool_show_bodies}
+	\end{figure}
+
+	\begin{table}[h]
+		\centering
+		\caption{Calculation input parameters \textit{VLEO aerodynamics tool}.}
+		\begin{tabular}{lll}
+			Parameter & Description & Unit \\
+			\hline
+			$q_{\text{BI}}$ & Inertial Satellite attitude & -\\
+			$T_{\text{i}}$ & Incident particle temperature & K\\
+			$\omega_{\text{BI}}$ & Rotational velocity & $\frac{\text{rad}}{\text{s}}$\\
+			$v_{\text{W,I}}$& Inertial wind velocity &  $\frac{\text{m}}{\text{s}}$\\
+			$\rho$ & Total mass density & $\frac{\text{kg}}{\text{m}^3}$\\
+			$m$& Particle mass  & kg \\
+		\end{tabular}
+		\label{tab:aerodynamics_tool_calc_input}
+	\end{table}
+
+	\begin{table}[h]
+		\renewcommand{\arraystretch}{1.2} % Adjust this value for row height
+		\centering
+		\caption{User defined parameters for the VLEO aerodynamics tool.}	
+		\footnotesize{
+		\begin{tabular}{p{2cm}p{5cm}p{1.2cm}}
+			\hline
+			\textbf{Parameter}      & \textbf{Description} & \textbf{Unit} \\
+			\hline
+			Geometry data     & Exported object files from CAD & \textbf{.obj} file\\
+			$R_{\text{H}}^{\text{G}}$ & Hinge points & m \\ 
+			$D_{\text{rot}}^{\text{G}}$ & Rotation directions & - \\ 
+			$T_{\text{surf}}$ & Surface temperatures & K \\\
+			$\alpha_{\text{E}}$ & Energy accommodation coefficients & - \\
+			$r_{\text{GB}}^{\text{G}}$ & Center of mass & m \\
+			$T_{\text{GB}}^{\text{G}}$ & Direction cosine matrix between CAD and body frame & - \\
+			\hline& 
+		\end{tabular}
+		\label{tab:parameters_vleo_aerodynamics_tool}
+		}
+	\end{table}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.9\textwidth]{Figures/fig8.eps}
+		\caption{Aerodynamics tool workflow.}
+			\label{fig:aerodynamics_tool_workflow}
+	\end{figure}
+
+
+
+    \section{Control Design}
+	\label{sec:control_design}
+	\subsection{Outer Loop Control}
+	The satellite's attitude with respect to the tangential frame is given by the quaternion $q_{\text{BT}}$.
+	We introduce the desired reference state $x_{\text{r}} = \begin{bmatrix}q_{\text{BT}}^{\text{r}} & \omega_{\text{BT,r}}^{\text{B}}\end{bmatrix}^{\top}$.
+	Using the shorthand $q_{\text{BT}}=q$, we define the error quaternion with
+
+
+	\newcommand{\tr}{\text{r}}
+	\newcommand{\tO}{\text{}}
+	\newcommand{\te}{\text{e}}
+	\begin{equation}
+		\label{eq:error_quaternion}
+		q^{\te}
+		= \begin{bmatrix}
+			q_{\text{v}}^{\te} \\
+			q_{4}^{\te}
+		\end{bmatrix} 
+		= \begin{bmatrix}
+			q_{4}^{\tr} I - \tilde{q}_{\text{v}}^{\tr} & - q_{\text{v}}^{\tr} \\
+			q_{\text{v}}^\intercal & q_{4}^{\tr}
+		\end{bmatrix}
+		q.
+	\end{equation}
+	Here, $I$ is the identity matrix and $\tilde{q}_{\text{v}}^{\tr}$ is the cross-product matrix of the vector part of the reference quaternion $q_{\text{v}}^{\tr}$. 
+	The rate error is defined as $\omega_{\te} = \omega_{\text{BT,r}}^{\text{B}} - \omega_{\text{BT}}^{\text{B}}$.
+
+	The desired torque can now be calculated using a PID version of the linear quaternion feedback regulator \cite{wieQuaternionFeedbackRegulator1989} with
+	\begin{equation}
+		\begin{aligned}
+			\tau_{\text{des}} &= 
+			- k_{\text{D}} J \omega_{\te}
+			- k_{\text{P}} J q_{\text{v}}^{\te}
+			- k_{\text{I}} \int_{0}^{t} q_{\text{v}}^{\te} \, \mathrm{d}\tau
+		\end{aligned}
+	\end{equation}
+
+	where $k_{\text{D}}, k_{\text{P}}$ and $k_{\text{I}}$ are positive scalars.
+
+	\subsection{Control Allocation}
+	We now use \cref{eq:torque_simplified} and replace the panel normal vectors $\hat{n}_i$ with the control fin angles $\eta_i$. The generated aerodynamic torque can now be defined as a function of the incoming flow direction $\hat{v}_{\text{i}}$ given by the satellite's attitude (see \cref{eq:quat_to_flow}) and the commanded angles $\eta_i$. 
+	This nonlinear function $\tau_{\text{aero}}(\eta,\hat{v}_{\text{i}})$ can be approximated by a linear function around the minimum-drag configuration to obtain
+
+	\begin{equation}
+		\Delta\tau_{\text{aero, lin}} = \tau_0 + A_0 \Delta \hat{v}_{\text{i}} + B_0\Delta \eta
+	\end{equation}
+	where
+	\begin{align}
+		A_0 &= \frac{\partial \tau_{\text{aero}}(\eta,\hat{v}_{\text{i}})}{\partial \hat{v}_{\text{i}}} \bigg|_{\eta = \eta_0, \hat{v}_{\text{i}} = \hat{v}_{\text{i}0}} \\
+		B_0 &= \frac{\partial \tau_{\text{aero}}(\eta,\hat{v}_{\text{i}})}{\partial \eta} \bigg|_{\eta = \eta_0, \hat{v}_{\text{i}} = \hat{v}_{\text{i}0}}\\
+		\eta_0 &= \mathbf{0}, \quad \tau_0 = \mathbf{0}, 
+		\quad \hat{v}_{\text{i}0} = \begin{bmatrix}-1 & 0 & 0\end{bmatrix}^{\top}
+	\end{align}
+	around the stable equilibrium point. Since $\eta\in \mathbb{R}^4$ and $\hat{v}_{\text{i}} \in \mathbb{R}^3$, the matrix $B_0$ is of size $3\times 4$.
+	We use the pseudoinverse to calculate the required fin angles $\eta$ for a desired torque $\tau_{\text{des}}$ with
+
+	\begin{equation}
+		\Delta \eta_{\text{alloc}} = B_0^+ (\tau_{\text{des}} - A_0 \Delta v_{\text{i}}).
+	\end{equation}
+
+	This results in a linear allocation procedure analogous to the controller derived in \cite{chenAerodynamicAttitudeControl2023}. Since the Taylor approximation is performed around the nominal satellite configuration, the resulting linearization is visualized by \Cref{fig:linearization} for each control fin. As a result, the algorithm treats drag as a constant value. Furthermore, values that are actually varying such as density $\rho$ and molecular speed ratio $s_{\text{i}}$ are assumed to be constant in this implementation.
+
+    \section{Case Study}
+	\label{sec:case_study}
+	To analyze the performance of the linear allocation method, we consider a case study for aerodynamic attitude control in a simulation environment.
+
+	
+	\subsection{Simulation}
+	\label{sec:simulation}
+	The satellite's 6-DoF dynamics are integrated with the initial conditions for a circular orbit given in \Cref{tab:initial_conditions}. At the start of the simulation the angular velocity is zero with respect to the tangential frame $\omega_{\text{BT}}=[0,0,0]^{\top}$. While the quaternion representation is used for control purposes, Euler angles are used in this section to provide a more intuitive understanding of the satellite's attitude.
+	The initial attitude is varied in yaw, pitch and roll with respect to the tangential frame using a 3-2-1 rotation sequence. For $\Phi=[\phi,\theta,\psi]^{\top}=[0,0,0]^{\top}$ the body frame is aligned with the tangential frame and the satellite is in the nominal orientation of lowest drag and behaves statically stable around the equilibrium without a control input $\eta=[0,0,0,0]^{\top}$.
+	Environmental parameters are obtained using the NRLMSISE-00 model \cite{piconeNRLMSISE00EmpiricalModel2002} and used within the \textit{VLEO Aerodynamics Tool} introduced in \cref{sec:sim_tool}. 
+	% The International Geomagnetic Reference Field (IGRF) \cite{alkenInternationalGeomagneticReference2021} model is used to calculate conrtributions of the magnetic field. 
+	
+	% table with 2 columns
+	\begin{table}[ht]
+		\centering
+		\caption{Orbit used for the case study.}
+		\begin{tabular}{l|l|l}
+			\hline
+			\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} \\
+			\hline
+			Altitude & $h$ & $300\,\text{km}$ \\
+			Orbit inclination & $i$ & $0^{\circ}$ \\
+			Eccentricity & $e$ & $0$ \\
+			\hline
+		\end{tabular}
+		\label{tab:initial_conditions}
+	\end{table}
+
+	The control parameters are set to $k_{\text{P}}=4.5 \times 10^{-4}$, $k_{\text{I}}=1\times 10^{-7}$ and $k_{\text{D}}=3\times 10^{-2}$. The simulation is run for $900\,\text{s}$.
+
+	\subsection{Results}
+	\label{sec:results}
+	We compare the performance of the PID control law with linear allocation for two different initial conditions in a stabilization scenario, that is, $\Phi_{\text{ref}}=\omega_{\text{BT,r}}=\textbf{0}$. The first example considers a small initial attitude offset in pitch and yaw of 
+	$[\phi, \theta, \psi]^{\top} = [0^{\circ}, -2^{\circ}, 3^{\circ}]^{\top}$. The results are visualized in \Cref{fig:small_angle_sim_results}. Stabilization is achieved in the tangential frame. However, offsets between desired body torques as computed by the outer loop PID control law and the actual aerodynamic torques are visible. For instance, the magnitude of the initial aerodynamic torque exceeds the desired torque by a factor of 1.9. For larger initial attitudes of $[\phi, \theta, \psi]^{\top} = [5^{\circ}, 10^{\circ}, -8^{\circ}]^{\top}$, this offset is even more pronounced, as shown in \Cref{fig:large_angle_sim_results}. Here, the aerodynamic torque around the $y_{\text{B}}$-axis exceeds the desired torque by a factor close to 4. 
+	Consequently, the allocation procedure fails to accurately represent the aerodynamic torques, even for small initial offsets. In our analysis the reason for this is two-fold. First, the linearization of the aerodynamic model is only valid around the nominal configuration for lift, but not for drag. Second, the time-varying parameters such as density are not accounted for in the linear allocation scheme.
+	Even though the actual and desired torques differ, the control law is able to stabilize the satellite in both cases. This can in part be attributed to the satellite being statically stable around the equilibrium point. Without the control fins however, asymptotic stability through damping would not be possible.
+
+    % Sim results plot: small initial offsets
+	\begin{figure*}[h]
+		\input{Figures/case_study_small_angle.tikz}
+		\caption{Simulation results for small initial attitude offsets. Top left: Attitude error over time. Top right: Desired control torques and actual aerodynamic torques. Bottom left: Actuated control fin angles. Bottom right: Body angular velocity error over time.}
+		\label{fig:small_angle_sim_results}
+	\end{figure*}
+	
+
+	\begin{figure*}[h]
+		\input{Figures/case_study_large_angle.tikz}
+		\caption{Simulation results for large initial attitude offsets. Top left: Attitude error over time. Top right: Desired control torques and actual aerodynamic torques. Bottom left: Actuated control fin angles. Bottom right: Body angular velocity error over time.}
+		\label{fig:large_angle_sim_results}
+	\end{figure*}
+	
+	In the final scenario, we evaluate the control law using a trim reference value of $\Phi_{\text{ref}} = [3^{\circ}, 4^{\circ}, 6^{\circ}]^{\top}$ starting from the nominal attitude. The results, presented in \Cref{fig:trim_sim_results}, reveal that even in the absence of initial attitude deviations, the aerodynamic torques initially exhibit significant discrepancies from the desired values. Notably, the torque along the $y_{\text{B}}$-axis displays a reversed sign, leading to inverse response behavior.
+	This behavior can be attributed to the allocation strategy required for generating roll torques, which necessitates rotating all fins in the same direction. This configuration introduces small offsets in the magnitudes of control fin angles on opposing panels. Consequently, one panel generates more drag than the other, creating a net drag imbalance. Given the dominance of drag forces in this aerodynamic regime, as discussed earlier, these offsets are substantial enough to explain the observed discrepancies.
+	While the control law eventually drives the satellite to the desired attitude, unstable behavior is observed for larger reference values, indicating the limitations of the linear allocation method.
+
+	
+
+    \begin{figure*}[h]
+		\input{Figures/case_study_trim.tikz}
+		\caption{Simulation results for aerodynamic trim reference values $\Phi_{\text{ref}}=[3^{\circ}, 6^{\circ}, 4^{\circ}]^{\top}$ without initial attitude deviation. Top left: Attitude over time. Top right: Desired control torques and actual aerodynamic torques. Bottom left: Actuated control fin angles. Bottom right: Body angular velocity error over time.}
+		\label{fig:trim_sim_results}
+	\end{figure*}
+
+    \section{Discussion}
+	\label{sec:discussion}
+	Active aerodynamic attitude control in VLEO satellites presents unique challenges and opportunities. Throughout this work, we have identified and addressed critical issues inherent to the approach, while laying a foundation for future research in the field.
+
+	\subsection{Challenges}
+	The allocation process of rotatable geometries is complicated due to the nonlinear nature of aerodynamic forces, which produce torque envelopes with complex, non-intuitive shapes.
+	Linear allocation methods, though computationally efficient, can produce significant errors, even for minor attitude deviations. This is primarily a consequence of the low lift-to-drag ratios encountered in VLEO regimes.
+	While aerodynamic models such as Sentman's equations already involve significant uncertainty since their verification is challenging, the time-varying nature of density combined with parameter dependent uncertainty in environmental models poses and additional layer of complexity. From a controls perspective, this introduces large time-varying and uncertain variations into the control problem.
+
+	\subsection{Contributions}
+	%We have systematically analyzed and highlighted key challenges for active aerodynamic control in VLEO, particularly focusing on the nonlinear control problem. This analysis provides valuable insights for designing future control systems in VLEO.
+	To facilitate research and practical implementation, we developed an aerodynamic simulation tool capable of on-line computation for active control scenarios. By open-sourcing this tool, we aim to empower the growing VLEO research community and foster collaboration.
+	Using our software, we demonstrated the limitations of linear allocation procedures. While they can stabilize a satellite under specific conditions, their inability to account for nonlinearities and uncertainties leads to significant discrepancies in the achieved torques. These findings underscore the need for more sophisticated control strategies.
+
+	\subsection{Outlook}
+	The development of comprehensive, open-source simulation tools is essential. Such tools can support extensive testing under various conditions, which is crucial for control design and verification in the highly uncertain environment of very low earth orbits.
+
+	To address the inherent nonlinearities combined with parameter and model uncertainty, robust nonlinear control strategies such as Incremental Nonlinear Dynamic Inversion (INDI) hold significant potential for improved control performance. 
+
+	Additionally, rigorous verification of control stability remains a largely unsolved challenge. Here, extensive Monte-Carlo simulations with sensitivity analyses offer a first path to success. Furthermore, Lyapunov-like methods for nonlinear systems could be applied to systems including aerodynamics. For instance, sum-of-squares programming offers a potential method to synthesize Lyapunov candidates to prove local asymptotic stability.
+
+	With our contribution, we hope to inspire further research in this field and foster the development of advanced control strategies for VLEO satellites.
+	The open source code for the \textit{VLEO Aerodynamics Tool} is available at \url{https://github.com/ifrunistuttgart/vleo-aerodynamics-tool}.
+
+    \section{Declarations}
+    \subsection{Competing Interests}
+    The authors have no competing interests to declare that are relevant to the content of this article
+	\subsection*{Acknowledgements}
+	This work is funded by the Deutsche Forschungsgemeinschaft project number 516238647 - SFB1667/1 (ATLAS - Advancing Technologies for Low-Altitude Satellites). 
+	
+	We would like to thank the University of Manchester for developing the open-source tool ADBSat, which has already provided valuable contributions to the community. We were able to build on these efforts in the development of our own tool.
+
+
+
+    
+
+
+
+
+%%===========================================================================================%%
+%% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
+%% system, please include the references within the manuscript file itself. You may do this  %%
+%% by copying the reference list from your .bbl file, paste it into the main manuscript .tex %%
+%% file, and delete the associated \verb+\bibliography+ commands.                            %%
+%%===========================================================================================%%
+
+\bibliography{sn-bibliography}% common bib file
+%% if required, the content of .bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
+
+\end{document}

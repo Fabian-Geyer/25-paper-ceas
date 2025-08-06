@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+	\begin{axis}[
+		width=\columnwidth*0.6,
+		xlabel={$\delta$ [deg]},
+		ylabel={$f$ [N]},
+		xmin=-1.57,xmax=1.57,  % This is approximately -90 to 90 degrees in radians<
+		xtick={-1.57, -1.047, -0.524, 0, 0.524, 1.047, 1.57},
+		xticklabels={-90, -60, -30, 0, 30, 60, 90},
+		legend style={font=\footnotesize, at={(1.02,0.5)}, anchor=west, legend columns=1},
+		]
+		\addplot [blue,line width=1pt] table[x=alpha,y=lift__N] {Figures/data/linearization_drag_lift.dat};
+		\addlegendentry{$f_z$ [N]}
+
+		\addplot [red,line width=1pt] table[x=alpha,y=drag__N] {Figures/data/linearization_drag_lift.dat};
+		\addlegendentry{$f_x$ [N]}
+
+		\addplot [blue,dashed] table[x=alpha,y=liftLin__N] {Figures/data/linearization_drag_lift.dat};
+		\addlegendentry{$f_{z, \mathrm{lin}}$ [N]}
+
+		\addplot [red,dashed] table[x=alpha,y=dragLin__N] {Figures/data/linearization_drag_lift.dat};
+		\addlegendentry{$f_{x, \mathrm{lin}}$ [N]}
+	\end{axis}
+\end{tikzpicture}
