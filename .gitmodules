@@ -1,3 +1,6 @@
 [submodule "code/sadycos-project-atlas"]
 	path = code/sadycos-project-atlas
 	url = https://git.ifr.uni-stuttgart.de/atlas/sadycos-project-atlas.git
+[submodule "code/external_libraries/matlab2tikz"]
+	path = code/external_libraries/matlab2tikz
+	url = https://github.com/matlab2tikz/matlab2tikz.git
