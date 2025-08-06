@@ -1,0 +1,3 @@
+[submodule "code/sadycos-project-atlas"]
+	path = code/sadycos-project-atlas
+	url = https://git.ifr.uni-stuttgart.de/atlas/sadycos-project-atlas.git
